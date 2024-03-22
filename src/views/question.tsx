@@ -1,11 +1,4 @@
-interface Question {
-  type: string;
-  difficulty: string;
-  category: string;
-  question: string;
-  correct_answer: string;
-  incorrect_answers: string[];
-}
+import { Question } from "../types";
 
 export function QuestionForm({ question }: { question: Question }) {
   const responses = [...question.incorrect_answers, question.correct_answer];
