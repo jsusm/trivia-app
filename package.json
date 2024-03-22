@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/grandstander": "^5.0.20",
+    "@fontsource-variable/shantell-sans": "^5.0.20",
+    "@fontsource/comic-mono": "^5.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
