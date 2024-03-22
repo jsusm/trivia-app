@@ -1,7 +1,7 @@
-import './App.css'
+import "./App.css";
 // import { StartScreen } from './views/startScreen'
 // import { QuestionForm } from './views/question'
-import { Results } from './views/results'
+import { Results } from "./views/results";
 
 // const question = {
 //   "type": "multiple",
@@ -18,10 +18,10 @@ import { Results } from './views/results'
 
 function App() {
   return (
-    <main className="min-h-screen grid place-items-center bg-stone-100 px-6">
+    <main className="grid min-h-screen place-items-center bg-stone-100 px-6">
       <Results />
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,8 @@
 .brutal-shadow-lg {
   box-shadow: 0 10px 0 #0a0a0a;
-  transition: box-shadow 250ms ease, transform 250ms ease;
+  transition:
+    box-shadow 250ms ease,
+    transform 250ms ease;
 
   &:hover,
   &:focus-visible {
@@ -17,7 +19,9 @@
 .brutal-shadow {
   --offset: 5px;
   box-shadow: 0 var(--offset) 0 #0a0a0a;
-  transition: box-shadow 250ms ease, transform 250ms ease;
+  transition:
+    box-shadow 250ms ease,
+    transform 250ms ease;
 
   &:hover,
   &:focus-visible {
