@@ -31,7 +31,7 @@ function AnswerEntry({
         },
       )}
     >
-      <span className="font-mono">{response}</span>
+      <span className="font-mono" dangerouslySetInnerHTML={{__html: response}}></span>
     </button>
   );
 }
@@ -44,6 +44,10 @@ export function QuestionForm({
   idx: number;
 }) {
   const answerQuestion = useQuestionsStore((state) => state.answerQuestion);
+  const goNextQuestion = useQuestionsStore(state => state.goNextQuestion)
+  const goPrevQuestion = useQuestionsStore(state => state.goPrevQuestion)
+  const currentQuestion = useQuestionsStore(state => state.currentQuestion)
+  const questionsNumber = useQuestionsStore(state => state.questions.length)
 
   const mkHandleClick = (answerIdx: number) => {
     return () => {
@@ -52,11 +56,11 @@ export function QuestionForm({
   };
 
   return (
-    <div className="max-w-screen-sm">
+    <div className="max-w-screen-sm w-full">
       <div className="py-10">
-        <h2 className="font-hero text-3xl">Question 1 of 10</h2>
+        <h2 className="font-hero text-3xl">Question {currentQuestion + 1} of {questionsNumber}</h2>
       </div>
-      <p className="text-balance font-mono text-xl">{question.question}</p>
+      <p className="text-balance font-mono text-xl" dangerouslySetInnerHTML={{__html: question.question}}></p>
       <div className="flex flex-col gap-4 py-8">
         {question.answers.map((r, idx) => (
           <AnswerEntry
@@ -69,10 +73,13 @@ export function QuestionForm({
         ))}
       </div>
       <div className="flex justify-end gap-4">
-        <button className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono">
+        <button
+          onClick={goPrevQuestion}
+          className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono"
+        >
           Back
         </button>
-        <button className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono">
+        <button onClick={goNextQuestion} className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono">
           Next
         </button>
       </div>

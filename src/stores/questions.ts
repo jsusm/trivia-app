@@ -11,8 +11,8 @@ interface State {
 interface Actions {
   getQuestions: () => Promise<void>;
   answerQuestion: (questionIdx: number, answerIdx: number) => void;
-  // goNextQuestion: () => void,
-  // goPrevQuestion: () => void,
+  goNextQuestion: () => void,
+  goPrevQuestion: () => void,
   // restart: () => void,
 }
 
@@ -41,5 +41,21 @@ export const useQuestionsStore = create<State & Actions>()(
       newQuestions[questionIdx].selectedAnswer = answerIdx;
       set({ questions: newQuestions });
     },
+    goNextQuestion: () => {
+      if(get().currentQuestion + 1 >= get().questions.length - 1) {
+        set(state => ({currentQuestion: state.questions.length - 1}))
+      }
+      else {
+        set(state => ({currentQuestion: state.currentQuestion + 1}))
+      }
+    },
+    goPrevQuestion: () => {
+      if(get().currentQuestion - 1 < 0) {
+        set({currentQuestion: 0})
+      }
+      else {
+        set(state => ({currentQuestion: state.currentQuestion - 1}))
+      }
+    }
   })),
 );
