@@ -8,4 +8,3 @@ export interface Question {
   answers: string[];
   selectedAnswer?: number;
 }
-

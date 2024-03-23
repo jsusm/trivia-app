@@ -6,9 +6,9 @@ import "@fontsource/comic-mono";
 // Supports weights 300-800
 import "@fontsource-variable/shantell-sans";
 
-const rootElement = document.getElementById("root")
-if(rootElement === null) {
-  throw new Error("Cannot render the app without element with id: 'root'.")
+const rootElement = document.getElementById("root");
+if (rootElement === null) {
+  throw new Error("Cannot render the app without element with id: 'root'.");
 }
 
 ReactDOM.createRoot(rootElement).render(

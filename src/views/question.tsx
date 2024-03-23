@@ -1,20 +1,71 @@
-import { Question } from "../types";
+import { useQuestionsStore } from "../stores/questions";
+import { type Question } from "../types";
+import { cx } from "class-variance-authority";
 
-export function QuestionForm({ question }: { question: Question }) {
-  const responses = [...question.incorrect_answers, question.correct_answer];
+interface AnswerEntryProps {
+  question: Question;
+  onClick: () => void;
+  response: string;
+  responseIdx: number;
+}
+
+function AnswerEntry({
+  question,
+  onClick,
+  response,
+  responseIdx,
+}: AnswerEntryProps) {
+  return (
+    <button
+      disabled={question.selectedAnswer !== undefined}
+      onClick={onClick}
+      className={cx(
+        "flex justify-start rounded-lg border-2 border-stone-900 px-4 py-2 transition-all active:scale-[0.99]",
+        question.selectedAnswer !== undefined && {
+          "bg-red-200":
+            question.selectedAnswer === responseIdx &&
+            question.correct_answer !==
+              question.answers[question.selectedAnswer],
+          "bg-lime-200":
+            question.correct_answer === question.answers[responseIdx],
+        },
+      )}
+    >
+      <span className="font-mono">{response}</span>
+    </button>
+  );
+}
+
+export function QuestionForm({
+  question,
+  idx,
+}: {
+  question: Question;
+  idx: number;
+}) {
+  const answerQuestion = useQuestionsStore((state) => state.answerQuestion);
+
+  const mkHandleClick = (answerIdx: number) => {
+    return () => {
+      answerQuestion(idx, answerIdx);
+    };
+  };
+
   return (
     <div className="max-w-screen-sm">
       <div className="py-10">
         <h2 className="font-hero text-3xl">Question 1 of 10</h2>
       </div>
-      <p className="text-balance font-mono text-xl">
-        Which programming language was developed by Sun Microsystems in 1995?
-      </p>
+      <p className="text-balance font-mono text-xl">{question.question}</p>
       <div className="flex flex-col gap-4 py-8">
-        {responses.map((r) => (
-          <button className="flex justify-start rounded-lg border-2 border-stone-900 px-4 py-2 transition-all hover:bg-blue-50 focus:bg-blue-200 active:scale-[0.99]">
-            <span className="font-mono">{r}</span>
-          </button>
+        {question.answers.map((r, idx) => (
+          <AnswerEntry
+            key={r}
+            question={question}
+            onClick={mkHandleClick(idx)}
+            responseIdx={idx}
+            response={r}
+          />
         ))}
       </div>
       <div className="flex justify-end gap-4">
