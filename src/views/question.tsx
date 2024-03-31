@@ -52,6 +52,16 @@ export function QuestionForm({
   const goPrevQuestion = useQuestionsStore((state) => state.goPrevQuestion);
   const currentQuestion = useQuestionsStore((state) => state.currentQuestion);
   const totalQuestions = useQuestionsStore((state) => state.questions.length);
+  const answered = useQuestionsStore((state) => state.answered)();
+  const gotoResults = useQuestionsStore((state) => state.gotoResults);
+
+  const handleNextButtonClick = () => {
+    if (answered === totalQuestions) {
+      gotoResults();
+    } else {
+      goNextQuestion();
+    }
+  };
 
   const mkHandleClick = (answerIdx: number) => {
     return () => {
@@ -85,10 +95,10 @@ export function QuestionForm({
             Back
           </Button>
           <Button
+            onClick={handleNextButtonClick}
             disabled={question.selectedAnswer === undefined}
-            onClick={goNextQuestion}
           >
-            Next
+            {answered === totalQuestions ? "Results" : "Next"}
           </Button>
         </div>
       </div>

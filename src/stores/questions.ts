@@ -6,6 +6,7 @@ import { devtools } from "zustand/middleware";
 interface State {
   questions: Question[];
   currentQuestion: number;
+  results: boolean;
   answered: () => number;
   correct: () => number;
 }
@@ -15,6 +16,7 @@ interface Actions {
   answerQuestion: (questionIdx: number, answerIdx: number) => void;
   goNextQuestion: () => void;
   goPrevQuestion: () => void;
+  gotoResults: () => void;
   restart: () => void;
 }
 
@@ -23,6 +25,8 @@ export const useQuestionsStore = create<State & Actions>()(
     questions: [],
 
     currentQuestion: 0,
+
+    results: false,
 
     answered: () =>
       get().questions.reduce(
@@ -72,8 +76,12 @@ export const useQuestionsStore = create<State & Actions>()(
       }
     },
 
+    gotoResults: () => {
+      set({ results: true });
+    },
+
     restart: () => {
-      set({ questions: [], currentQuestion: 0 });
+      set({ questions: [], currentQuestion: 0, results: false });
     },
   })),
 );
