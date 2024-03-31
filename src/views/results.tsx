@@ -1,8 +1,13 @@
+import { useQuestionsStore } from "../stores/questions";
+
 export function Results() {
+  const questions = useQuestionsStore((state) => state.questions);
+  const correct = useQuestionsStore((state) => state.correct)();
+  const restart = useQuestionsStore((state) => state.restart);
   return (
     <div className="w-full max-w-screen-sm">
       <h2 className="text-center font-hero text-4xl tracking-tight">
-        Your score is 12 out of 20
+        Your score is {correct} out of {questions.length}
       </h2>
       <div className="text-center">
         <p className="font-hero text-xl text-stone-600">
@@ -13,7 +18,10 @@ export function Results() {
         </p>
       </div>
       <div className="flex justify-center pt-8">
-        <button className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono">
+        <button
+          onClick={restart}
+          className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono"
+        >
           Try again
         </button>
       </div>

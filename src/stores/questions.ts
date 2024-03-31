@@ -6,14 +6,16 @@ import { devtools } from "zustand/middleware";
 interface State {
   questions: Question[];
   currentQuestion: number;
+  answered: () => number;
+  correct: () => number;
 }
 
 interface Actions {
   getQuestions: () => Promise<void>;
   answerQuestion: (questionIdx: number, answerIdx: number) => void;
-  goNextQuestion: () => void,
-  goPrevQuestion: () => void,
-  // restart: () => void,
+  goNextQuestion: () => void;
+  goPrevQuestion: () => void;
+  restart: () => void;
 }
 
 export const useQuestionsStore = create<State & Actions>()(
@@ -21,6 +23,20 @@ export const useQuestionsStore = create<State & Actions>()(
     questions: [],
 
     currentQuestion: 0,
+
+    answered: () =>
+      get().questions.reduce(
+        (n, q) => (q.selectedAnswer !== undefined ? n + 1 : n),
+        0,
+      ),
+
+    correct: () =>
+      get().questions.reduce((n, q) => {
+        if (q.selectedAnswer === undefined) {
+          return n;
+        }
+        return q.answers[q.selectedAnswer] === q.correct_answer ? n + 1 : n;
+      }, 0),
 
     getQuestions: async () => {
       const questions = results.map((q) => ({
@@ -31,7 +47,7 @@ export const useQuestionsStore = create<State & Actions>()(
       }));
       const shuffleQuestions = questions
         .sort(() => Math.random() - 0.5)
-        .slice(10);
+        .slice(0, 5);
 
       set({ questions: shuffleQuestions });
     },
@@ -42,20 +58,22 @@ export const useQuestionsStore = create<State & Actions>()(
       set({ questions: newQuestions });
     },
     goNextQuestion: () => {
-      if(get().currentQuestion + 1 >= get().questions.length - 1) {
-        set(state => ({currentQuestion: state.questions.length - 1}))
-      }
-      else {
-        set(state => ({currentQuestion: state.currentQuestion + 1}))
+      if (get().currentQuestion + 1 >= get().questions.length - 1) {
+        set((state) => ({ currentQuestion: state.questions.length - 1 }));
+      } else {
+        set((state) => ({ currentQuestion: state.currentQuestion + 1 }));
       }
     },
     goPrevQuestion: () => {
-      if(get().currentQuestion - 1 < 0) {
-        set({currentQuestion: 0})
+      if (get().currentQuestion - 1 < 0) {
+        set({ currentQuestion: 0 });
+      } else {
+        set((state) => ({ currentQuestion: state.currentQuestion - 1 }));
       }
-      else {
-        set(state => ({currentQuestion: state.currentQuestion - 1}))
-      }
-    }
+    },
+
+    restart: () => {
+      set({ questions: [], currentQuestion: 0 });
+    },
   })),
 );
