@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { type Question } from "../types";
-import { results } from "../mocks/apiTriviaQuestion.json";
 import { devtools } from "zustand/middleware";
+import { getQuestions } from "../services/questions";
 
 interface State {
   questions: Question[];
   currentQuestion: number;
   results: boolean;
+  loading: boolean;
   answered: () => number;
   correct: () => number;
 }
@@ -28,6 +29,8 @@ export const useQuestionsStore = create<State & Actions>()(
 
     results: false,
 
+    loading: false,
+
     answered: () =>
       get().questions.reduce(
         (n, q) => (q.selectedAnswer !== undefined ? n + 1 : n),
@@ -43,17 +46,9 @@ export const useQuestionsStore = create<State & Actions>()(
       }, 0),
 
     getQuestions: async () => {
-      const questions = results.map((q) => ({
-        ...q,
-        answers: [...q.incorrect_answers, q.correct_answer].sort(
-          () => Math.random() - 0.5,
-        ),
-      }));
-      const shuffleQuestions = questions
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 5);
-
-      set({ questions: shuffleQuestions });
+      set({ loading: true });
+      const questions = await getQuestions();
+      set({ questions, loading: false });
     },
 
     answerQuestion: (questionIdx: number, answerIdx: number) => {
