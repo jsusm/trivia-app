@@ -1,44 +1,7 @@
 import { useQuestionsStore } from "../stores/questions";
 import { type Question } from "../types";
-import { cx } from "class-variance-authority";
 import { Button } from "../components/button";
-
-interface AnswerEntryProps {
-  question: Question;
-  onClick: () => void;
-  response: string;
-  responseIdx: number;
-}
-
-function AnswerEntry({
-  question,
-  onClick,
-  response,
-  responseIdx,
-}: AnswerEntryProps) {
-  return (
-    <button
-      disabled={question.selectedAnswer !== undefined}
-      onClick={onClick}
-      className={cx(
-        "flex justify-start rounded-lg border-2 border-stone-900 px-4 py-2 transition-all focus:scale-[1.02] focus:bg-blue-200 active:scale-[0.99]",
-        question.selectedAnswer !== undefined && {
-          "bg-red-200":
-            question.selectedAnswer === responseIdx &&
-            question.correct_answer !==
-              question.answers[question.selectedAnswer],
-          "bg-lime-200":
-            question.correct_answer === question.answers[responseIdx],
-        },
-      )}
-    >
-      <span
-        className="font-mono"
-        dangerouslySetInnerHTML={{ __html: response }}
-      ></span>
-    </button>
-  );
-}
+import { AnswerEntry } from "../components/AnswerEntry";
 
 export function QuestionForm({
   question,
