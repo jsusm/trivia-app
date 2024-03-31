@@ -1,6 +1,7 @@
 import { useQuestionsStore } from "../stores/questions";
 import { type Question } from "../types";
 import { cx } from "class-variance-authority";
+import { Button } from "../components/button";
 
 interface AnswerEntryProps {
   question: Question;
@@ -50,7 +51,7 @@ export function QuestionForm({
   const goNextQuestion = useQuestionsStore((state) => state.goNextQuestion);
   const goPrevQuestion = useQuestionsStore((state) => state.goPrevQuestion);
   const currentQuestion = useQuestionsStore((state) => state.currentQuestion);
-  const questionsNumber = useQuestionsStore((state) => state.questions.length);
+  const totalQuestions = useQuestionsStore((state) => state.questions.length);
 
   const mkHandleClick = (answerIdx: number) => {
     return () => {
@@ -60,11 +61,6 @@ export function QuestionForm({
 
   return (
     <div className="w-full max-w-screen-sm">
-      <div className="py-10">
-        <h2 className="font-hero text-3xl">
-          Question {currentQuestion + 1} of {questionsNumber}
-        </h2>
-      </div>
       <p
         className="text-balance font-mono text-xl"
         dangerouslySetInnerHTML={{ __html: question.question }}
@@ -80,19 +76,21 @@ export function QuestionForm({
           />
         ))}
       </div>
-      <div className="flex justify-end gap-4">
-        <button
-          onClick={goPrevQuestion}
-          className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono"
-        >
-          Back
-        </button>
-        <button
-          onClick={goNextQuestion}
-          className="brutal-shadow flex items-center rounded-xl border-2 border-stone-900 bg-lime-200 px-8 py-2 font-mono"
-        >
-          Next
-        </button>
+      <div className="flex items-center justify-between gap-4">
+        <p className="pt-0.5 font-mono">
+          {currentQuestion + 1}/{totalQuestions}
+        </p>
+        <div className="flex gap-4">
+          <Button disabled={currentQuestion === 0} onClick={goPrevQuestion}>
+            Back
+          </Button>
+          <Button
+            disabled={question.selectedAnswer === undefined}
+            onClick={goNextQuestion}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
