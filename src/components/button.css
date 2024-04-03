@@ -1,5 +1,5 @@
 .brutal-shadow-lg {
-  box-shadow: 0 10px 0 #0a0a0a;
+  box-shadow: 0 10px 0 rgb(41 37 36);
   transition:
     box-shadow 100ms ease,
     transform 100ms ease;
@@ -7,12 +7,12 @@
 
 .brutal-shadow-lg:hover,
 .brutal-shadow-lg:focus-visible {
-  box-shadow: 0 12px 0 #0a0a0a;
+  box-shadow: 0 12px 0 rgb(41 37 36);
   transform: translateY(-2px);
 }
 
 .brutal-shadow-lg:active {
-  box-shadow: 0 0px 0 #0a0a0a;
+  box-shadow: 0 0px 0 rgb(41 37 36);
   transform: translateY(10px);
 }
 
