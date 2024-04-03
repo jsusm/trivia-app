@@ -33,7 +33,7 @@ export function QuestionForm({
   };
 
   return (
-    <div className="w-full max-w-screen-sm">
+    <div className="w-full max-w-screen-sm animate-in fade-in">
       <p
         className="text-balance font-mono text-xl"
         dangerouslySetInnerHTML={{ __html: question.question }}

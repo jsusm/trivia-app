@@ -25,7 +25,7 @@ export function Loader({
   });
 
   return (
-    <span className={cx("font-hero", props.className)}>
+    <span className={cx("font-hero animate-in fade-in", props.className)}>
       {text.slice(0, slice)}
     </span>
   );
