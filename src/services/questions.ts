@@ -14,7 +14,7 @@ export async function getQuestions() {
     const res = await fetch(
       "https://opentdb.com/api.php?amount=10&category=18",
     );
-    const json = await res.json() as apiResponseType;
+    const json = (await res.json()) as apiResponseType;
     const questions = json.results.map((q) => ({
       ...q,
       answers: [...q.incorrect_answers, q.correct_answer].sort(
