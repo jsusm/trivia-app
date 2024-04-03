@@ -19,7 +19,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
       </div>
       <button
         onClick={onStart}
-        className="brutal-shadow-lg rounded-xl border-2 border-stone-800 bg-lime-200 px-8 py-6 font-hero text-3xl text-stone-800 animate-in fade-in"
+        className="brutal-shadow-lg rounded-xl border-2 border-stone-800 bg-lime-200 px-8 py-4 font-hero text-3xl text-stone-800 animate-in fade-in"
       >
         Start Trivia
       </button>
