@@ -10,7 +10,7 @@ function App() {
   const questions = useQuestionsStore((state) => state.questions);
   const currentQuestion = useQuestionsStore((state) => state.currentQuestion);
   const results = useQuestionsStore((state) => state.results);
-  const loading = useQuestionsStore((state) => state.loading);
+  // const loading = useQuestionsStore((state) => state.loading);
 
   return (
     <main className="grid min-h-screen place-items-center bg-stone-100 px-6">
